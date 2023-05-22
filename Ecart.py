@@ -20,13 +20,18 @@ def bulk_5_Discount(orders):
         price = order['price']
         
         if quantity >= 10:
-            discount = 0.1
+            discount = 0.05
             discounted_price = price - (price*discount)
             discounted_total += discounted_price
         else:
             discounted_total += price
 
     return discounted_total
+
+def bulk_10_Discount(total_price):
+    discount = 0.1
+    bulk_10_discount = total_price - (total_price * discount )
+    return bulk_10_discount
 
 
 def tiered_50_Discount(orders):
@@ -38,7 +43,7 @@ def tiered_50_Discount(orders):
         price = order['price']
 
         if quantity >= 15:
-            discount = 0.5
+            discount = 0.05
             discounted_price = price - (price*discount)
             discounted_total += discounted_price
         else: 
@@ -47,7 +52,7 @@ def tiered_50_Discount(orders):
     return discounted_total
 
     
-def discount(total_price, orders):
+def discount(total_price, total_quantity, orders):
     discountDict = {}
 
     if total_price >= 200:  
@@ -55,6 +60,9 @@ def discount(total_price, orders):
     
     if above_10:
         discountDict['bulk_5_discount'] = bulk_5_Discount(orders)
+        
+    if total_quantity >= 20:
+        discountDict['bulk_10_discount'] = bulk_10_Discount(total_price)
 
     if above_15 and total_quantity >= 30: 
         discountDict['tiered_50_discount'] = tiered_50_Discount(orders)   
@@ -102,8 +110,8 @@ if __name__ == "__main__":
 
     
     #Discount
-    if discount(total_price,orders):
-        discountName, discountAmount = discount(total_price,orders)
+    if discount(total_price, total_quantity, orders):
+        discountName, discountAmount = discount(total_price, total_quantity, orders)
         print()
         print(f'Discount Name:{discountName}')
         print(f'Discount Amount:${discountAmount}')
